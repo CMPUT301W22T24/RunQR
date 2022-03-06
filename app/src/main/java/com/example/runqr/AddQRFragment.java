@@ -1,5 +1,7 @@
 package com.example.runqr;
 
+import static androidx.core.content.ContextCompat.checkSelfPermission;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -78,6 +80,18 @@ public class AddQRFragment extends Fragment {
             }
         });
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (getActivity().checkSelfPermission(Manifest.permission.CAMERA) !=
+                    PackageManager.PERMISSION_GRANTED) {
+                mPermissionGranted = false;
+                requestPermissions(new String[] {Manifest.permission.CAMERA}, RC_PERMISSION);
+            } else {
+                mPermissionGranted = true;
+            }
+        } else {
+            mPermissionGranted = true;
+        }
+
 
         confirmAddQR.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +146,9 @@ public class AddQRFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mCodeScanner.startPreview();
+        if(mPermissionGranted){
+            mCodeScanner.startPreview();
+        }
     }
 
     @Override
@@ -140,6 +156,21 @@ public class AddQRFragment extends Fragment {
         mCodeScanner.releaseResources();
         super.onPause();
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == RC_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mPermissionGranted = true;
+                mCodeScanner.startPreview();
+            } else {
+                mPermissionGranted = false;
+            }
+        }
+    }
+
 
 
 }

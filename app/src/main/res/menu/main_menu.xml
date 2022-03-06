@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/qr_library_item"
+        android:icon="@drawable/ic_menu_icon"
+        android:title="QR Library"
+        app:showAsAction="never" />
+    <item android:id="@+id/add_device_item"
+        android:title="Add Another Device"
+        app:showAsAction="never" />
+    <item android:id="@+id/profile_item"
+        android:title="Profile"
+        app:showAsAction="never" />
+    <item android:id="@+id/leaderboard_item"
+        android:title="View Leaderboard"
+        app:showAsAction="never" />
+
+
+
+</menu>
