@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+RunQR/src/main/res/values/developer-config.xml

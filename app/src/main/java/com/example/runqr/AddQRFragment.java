@@ -1,38 +1,30 @@
 package com.example.runqr;
 
-import static androidx.core.content.ContextCompat.checkSelfPermission;
-
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Bundle;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-//import android.support.v4.app.Fragment;
-//import android.support.v4.app.FragmentManager;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-//import android.app.FragmentManager;
-//import android.app.FragmentTransaction;
-import androidx.fragment.app.Fragment;
-
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
+
+//import android.support.v4.app.Fragment;
+//import android.support.v4.app.FragmentManager;
+//import android.app.FragmentManager;
+//import android.app.FragmentTransaction;
 
 public class AddQRFragment extends Fragment {
 
@@ -40,15 +32,29 @@ public class AddQRFragment extends Fragment {
     private CodeScanner mCodeScanner;
     private boolean mPermissionGranted;
     private String QRString = null;
+    private OnFragmentInteractionListener listener;
 
 
     OnConfirmPressed dataPasser;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        dataPasser = (AddQRFragment.OnConfirmPressed) context;
+
+        if (context instanceof OnFragmentInteractionListener) {
+            listener = (OnFragmentInteractionListener) context;
+        }
+        else {
+            throw new RuntimeException(context.toString()+
+                    " must implement OnFragmentInteractionListener");
+        }
+
+        //dataPasser = (AddQRFragment.OnConfirmPressed) context;
     }
 
+    public interface OnFragmentInteractionListener {
+        void onConfirmPressed(QRCode QRCodeToAdd);
+
+    }
 
     @Nullable
     @Override
@@ -99,12 +105,17 @@ public class AddQRFragment extends Fragment {
                 //add QRCode
                 if (QRString != null){
                     String hashedString = QRCodeScanner.hashQRCode(QRString);
-                    QRCodeScanner.scanQRCode(hashedString);
-                    // send QRCode to MainActivity using intent
+                    QRCode QRCodeToAdd = QRCodeScanner.scanQRCode(hashedString);
+                    // send QRCode to MainActivity to add it to player's QRLibrary
+                    listener.onConfirmPressed(QRCodeToAdd);
+
 
                     // prompt user to enter geolocation and/or photo of object hosting the QRCode
 
+
                     //ignore for now
+
+
                     getFragmentManager().beginTransaction().remove(AddQRFragment.this).commit();
                     final Button addQRButton = getActivity().findViewById(R.id.add_qr_button);
                     addQRButton.setVisibility(View.VISIBLE);

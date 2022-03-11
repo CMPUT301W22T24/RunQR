@@ -10,10 +10,11 @@ public class Scanner implements Serializable {
     private String hash;
 
 
-    public void scanQRCode(String hashedContent){
+    public QRCode scanQRCode(String hashedContent){
 
         // create new QRCode object
-        QRCode qRCode = new QRCode(hashedContent);
+        QRCode qrCode = new QRCode(hashedContent);
+        return qrCode;
 
 
     }
