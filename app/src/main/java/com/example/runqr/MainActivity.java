@@ -309,6 +309,8 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
                 //define Geo-Location here
                 double longitude = location.getLongitude();
                 double latitude = location.getLatitude();
+                view.setX(Math.round(longitude));
+                view.setY(Math.round(latitude));
                 
             }
         });
