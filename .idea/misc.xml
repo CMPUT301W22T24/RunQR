@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/CMPUT301/part_3/RunQR/app/src/main/res/layout/add_qr_fragment_layout.xml" value="0.268" />
+        <entry key="..\:/CMPUT301/part_3/RunQR/app/src/main/res/layout/scanner_popup.xml" value="0.2" />
         <entry key="..\:/Users/Bayley/AndroidStudioProjects/Project/RunQR/app/src/main/res/layout/activity_leaderboard.xml" value="0.1" />
         <entry key="..\:/Users/Bayley/AndroidStudioProjects/Project/RunQR/app/src/main/res/layout/leaderboard_content.xml" value="0.13269927536231885" />
         <entry key="..\:/Users/marshad/project/RunQR/app/src/main/res/layout/activity_main.xml" value="0.27239583333333334" />
@@ -12,7 +14,6 @@
         <entry key="..\:/Users/mdota/project/RunQR/app/src/main/res/layout/activity_qrlibrary.xml" value="0.24739583333333334" />
         <entry key="..\:/Users/mdota/project/RunQR/app/src/main/res/layout/qrlibrary_content.xml" value="0.2066115702479339" />
         <entry key="..\:/Users/mdota/project/RunQR/app/src/main/res/menu/main_menu.xml" value="0.2890625" />
-        <entry key="..\:/Users/psroy/Desktop/CMPUT301/Project/RunQR/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/yumna/OneDrive/Documents/CMPUT 301/RunQrProject/RunQR/app/src/main/res/layout/activity_main.xml" value="0.36" />
         <entry key="..\:/Users/yumna/OneDrive/Documents/CMPUT 301/RunQrProject/RunQR/app/src/main/res/layout/activity_qrlibrary.xml" value="0.3" />
         <entry key="..\:/Users/yumna/OneDrive/Documents/CMPUT 301/RunQrProject/RunQR/app/src/main/res/layout/add_qr_fragment_layout.xml" value="0.25" />
@@ -21,7 +22,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
