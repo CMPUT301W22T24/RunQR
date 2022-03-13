@@ -299,6 +299,7 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
             @Override
             public void onClick(View view) {
                 //define Take Photo here
+                openCamera(view);
             }
         });
 
@@ -406,6 +407,11 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
     @Override
     public void onLocationChanged(@NonNull Location location) {
 
+    }
+
+    public void openCamera(View view){
+        Intent intent = new Intent(this, Camera.class);
+        startActivity(intent);
     }
 }
 

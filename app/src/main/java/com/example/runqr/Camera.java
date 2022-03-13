@@ -86,6 +86,7 @@ public class Camera extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void capturePhoto() {
+        
         //File photoDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/CameraXPhotos");
         //if(!photoDir.exists())
         //photoDir.mkdir();
@@ -132,5 +133,7 @@ public class Camera extends AppCompatActivity implements View.OnClickListener {
                 }
 
         );
+
+
     }
 }

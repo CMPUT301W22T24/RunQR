@@ -3,10 +3,11 @@ package com.example.runqr;
 import android.graphics.Bitmap;
 
 public class Photo extends Camera{
-    private Bitmap image;
+    private static Bitmap image;
+    //private Bitmap image;
     //private byte image;
 
-    public Bitmap getImage() {
+    public static Bitmap getImage() {
         return image;
     }
 
