@@ -1,8 +1,11 @@
 package com.example.runqr;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,6 +25,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
@@ -33,6 +37,7 @@ public class Camera extends AppCompatActivity implements View.OnClickListener {
     PreviewView previewView;
     Button takePicture;
     private ImageCapture imageCapture;
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +91,7 @@ public class Camera extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void capturePhoto() {
-        
+
         //File photoDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/CameraXPhotos");
         //if(!photoDir.exists())
         //photoDir.mkdir();
@@ -122,6 +127,13 @@ public class Camera extends AppCompatActivity implements View.OnClickListener {
 
                     @Override
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                        //ImageDecoder.Source source = ImageDecoder.createSource(contentValues, outputFileResults.getSavedUri());
+                        Context context = null;
+                        try {
+                            context.getContentResolver().openInputStream(outputFileResults.getSavedUri());
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
                         Log.v("hello","Photo saved");
                     }
 
@@ -136,4 +148,5 @@ public class Camera extends AppCompatActivity implements View.OnClickListener {
 
 
     }
+
 }
