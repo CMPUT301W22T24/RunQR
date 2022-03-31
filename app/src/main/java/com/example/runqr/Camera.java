@@ -32,6 +32,7 @@ import java.util.concurrent.Executor;
 
 public class Camera extends AppCompatActivity implements View.OnClickListener {
     //impliment camera class from android studios "https://developer.android.com/guide/topics/media/camera"
+    //Structure of the code referenced from "https://www.youtube.com/watch?v=IrwhjDtpIU0" by Coding Reel
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
 
     PreviewView previewView;

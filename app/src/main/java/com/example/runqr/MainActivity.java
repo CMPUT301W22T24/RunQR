@@ -269,7 +269,8 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
         add_geolocation = (Button) conformationPopup.findViewById(R.id.addGeolocationButton);
         yes = (Button) conformationPopup.findViewById(R.id.yesButton);
         no = (Button) conformationPopup.findViewById(R.id.noButton);
-        
+
+        //LocationManager class from "https://developer.android.com/reference/android/location/LocationManager" Android Studios
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 

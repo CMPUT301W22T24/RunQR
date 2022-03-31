@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "501555863916",
+    "project_id": "runqrdatabase",
+    "storage_bucket": "runqrdatabase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501555863916:android:b1a51eb9941fea6bd95349",
+        "android_client_info": {
+          "package_name": "com.example.runqr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501555863916-q5n1taarg50m2bh7gqtt6frsu46rhd9i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD33sriwlbI1nwDpuVSmsggLzxMu6BtHzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501555863916-q5n1taarg50m2bh7gqtt6frsu46rhd9i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
