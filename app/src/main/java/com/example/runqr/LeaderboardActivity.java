@@ -29,7 +29,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     ArrayList<LeaderboardItem> scoreDataList;
     ArrayList<String> players;
     ArrayList<String> scores;
-    int mode = 0;
+    //int mode = 0;
 
 
     @Override
@@ -117,6 +117,19 @@ public class LeaderboardActivity extends AppCompatActivity {
                 }
                 LeaderboardItemComparator leaderboardItemComparator = new LeaderboardItemComparator();
                 Collections.sort(scoreDataList, leaderboardItemComparator);
+                /*figuring out player rankings*/
+                int size = scoreDataList.size();
+                int numPlatinum = 0; //first x% should be platinum
+                int numGold = size/25; //next 4%
+                int numSilver = size/10; //next 10%
+                int numBronze = size/5; //next 20%
+                scoreDataList.add(numBronze, new LeaderboardItem("     ", "Bronze"));
+                scoreDataList.add(numSilver, new LeaderboardItem("     ", "Silver"));
+                scoreDataList.add(numGold, new LeaderboardItem("     ", "Gold"));
+                scoreDataList.add(numPlatinum, new LeaderboardItem("     ", "Platinum"));
+
+
+
                 scoreAdapter.notifyDataSetChanged();
             }
         });
