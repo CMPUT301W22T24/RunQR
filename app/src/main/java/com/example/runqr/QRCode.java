@@ -36,6 +36,27 @@ public class QRCode implements Serializable {
         this.hash = hash;
         this.location = location;
         this.commentLibrary = new CommentLibrary();
+    }public QRCode() {
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
+    }
+
+    public void setCommentLibrary(CommentLibrary commentLibrary) {
+        this.commentLibrary = commentLibrary;
     }
 
 

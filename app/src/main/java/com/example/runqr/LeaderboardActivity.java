@@ -85,7 +85,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         players = new ArrayList<String>();
         scores = new ArrayList<String>();
-        
+
         scoreList = findViewById(R.id.leaderboard_list);
         scoreDataList = new ArrayList<LeaderboardItem>();
         scoreAdapter = new LeaderboardCustomList(this, scoreDataList);

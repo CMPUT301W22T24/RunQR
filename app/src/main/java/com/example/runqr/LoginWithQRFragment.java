@@ -1,12 +1,15 @@
 package com.example.runqr;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
+
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,30 +28,27 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 import com.google.zxing.Result;
-
-import java.util.HashMap;
 
 // This class is the Fragment used to host a codeScanner which allows players to scan QRCodes and uses Hasher to hash code contents.
 // The newly created QRCode is passed back to MainActivity through method onConfirmPressed and added to player's QRLibrary there.
 // This class uses CodeScanner object to scan QRCodes and borrows code from: https://github.com/yuriy-budiyev/code-scanner.
 
 
-public class AddQRFragment extends Fragment {
-    FirebaseFirestore db;
+public class LoginWithQRFragment extends Fragment {
+
     private static final int RC_PERMISSION = 10;
     private CodeScanner mCodeScanner;
     private boolean mPermissionGranted;
     private String QRString = null;
     private OnFragmentInteractionListener listener;
-    Boolean unique;
+    FirebaseFirestore db;
+    String hashUsername = "";
 
     @Override
     public void onAttach(Context context) {
@@ -122,18 +122,39 @@ public class AddQRFragment extends Fragment {
             public void onClick(View view) {
                 //add QRCode
                 if (QRString != null){
-                    String hashedString = QRCodeHasher.hashQRCode(QRString);
-                    QRCode QRCodeToAdd = new QRCode(hashedString);
-                    checkWhetherUnique(QRCodeToAdd);
-                    // send QRCodeToAdd to MainActivity to add it to the player's QRLibrary
-                    listener.onConfirmPressed(QRCodeToAdd);
+                    DocumentReference docRef = db.collection("Identifiers").document(QRString);
+                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    saveData();
+                                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                                    startActivity(intent);
+                                    kill_activity();
+                                } else {
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "Cannot login with this QRCode. Please try another!";
+                                    int duration = Toast.LENGTH_SHORT;
+
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();
+                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
+
 
 
                     // prompt user to enter geolocation and/or photo of object hosting the QRCode
                     //ignore for now
 
 
-                    getFragmentManager().beginTransaction().remove(AddQRFragment.this).commit();
+                    getFragmentManager().beginTransaction().remove(LoginWithQRFragment.this).commit();
                     /*
                     // Set's ADD QR BUTTON VISIBILITY
                     final Button addQRButton = getActivity().findViewById(R.id.add_qr_button);
@@ -149,7 +170,7 @@ public class AddQRFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // cancel ScannerFragment and return to main activity with no changes
-                getFragmentManager().beginTransaction().remove(AddQRFragment.this).commit();
+                getFragmentManager().beginTransaction().remove(LoginWithQRFragment.this).commit();
 
                 /*
                 // Set's ADD QR BUTTON VISIBILITY
@@ -176,63 +197,6 @@ public class AddQRFragment extends Fragment {
         void onConfirmPressed(QRCode qrCodeData);
 
     }
-    Boolean checkWhetherUnique(QRCode qrcode){
-        String hash = qrcode.getHash();
-        DocumentReference docRef = db.collection("QR Codes").document(hash);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        unique = false;
-                    } else {
-                        unique = true;
-                        saveQRCodeToDB(qrcode);
-                        Context context = getApplicationContext();
-                        CharSequence text = "Congratulations! You are the first one who scanned this QRCode!!";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-        return unique;
-    }
-
-    public void saveQRCodeToDB(QRCode qrcode){
-        String hash = qrcode.getHash();
-        CollectionReference collectionIdentifier = db.collection("QR Codes");
-        collectionIdentifier
-                .document(hash)
-                .set(qrcode)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // These are a method which gets executed when the task is succeeded
-                        Log.d(TAG, "Data has been added successfully!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // These are a method which gets executed if there’s any problem
-                        Log.d(TAG, "Data could not be added!" + e.toString());
-                    }
-                });
-    }
-    /*
-
-
-
-    public void savePlayerToQRCode(QRCode qrcode){
-
-    }
-
-
     /*
 
     public void passData(QRCode data) {
@@ -270,6 +234,20 @@ public class AddQRFragment extends Fragment {
                 mPermissionGranted = false;
             }
         }
+    }
+
+    void saveData(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json =gson.toJson(hashUsername);
+        editor.putString("hash username", json);
+        editor.apply();
+    }
+
+    void kill_activity()
+    {
+        getActivity().finish();
     }
 
 

@@ -3,6 +3,7 @@ package com.example.runqr;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * This class represents a Player object in the RunQR game.
@@ -25,9 +26,9 @@ public class Player implements Serializable {
 
     public Player(){
 
-        this.playerAccount = new Account();
-        this.playerStats = new PlayerStats("a",null,null,0,0,0,0,0);
-        this.playerQRLibrary = new QRLibrary();
+        //this.playerAccount = new Account();
+        //this.playerStats = new PlayerStats("a",null,null,0,0,0,0,0);
+        //this.playerQRLibrary = new QRLibrary();
     }
 
     public Player(Account playerAccount) {
@@ -101,7 +102,11 @@ public class Player implements Serializable {
         this.playerQRLibrary = updatedQRLibrary;
     }
 
+    public void setPlayerAccount(Account playerAccount) {
+        this.playerAccount = playerAccount;
+    }
 
-
-
+    public void setPlayerStats(PlayerStats playerStats) {
+        this.playerStats = playerStats;
+    }
 }

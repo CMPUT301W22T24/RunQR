@@ -14,10 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RunQR"
         android:usesCleartextTraffic="true">
-        <!--activity
+        <activity
+            android:name=".AddDeviceActivity"
+            android:exported="false" />
+        <!--
+        activity
             android:name=".CustomListAdapter"
             android:exported="false"-->
-
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
@@ -26,7 +29,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBCVF_eq7zdUk2jwTJTKK0rCOISbiLlqlY" />
 
-      
         <activity
             android:name=".DisplayQRCodeActivity"
             android:exported="false" />
@@ -37,15 +39,13 @@
 
         <activity
             android:name=".LoginActivity"
-            android:exported="true" >
-
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".QRLibraryActivity"
             android:exported="false" />
@@ -60,6 +60,3 @@
     </application>
 
 </manifest>
-
-
-

@@ -10,6 +10,13 @@ import java.io.Serializable;
  *
  */
 public class Account  implements Serializable {
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
 
     private String username;
     private String contactEmail;

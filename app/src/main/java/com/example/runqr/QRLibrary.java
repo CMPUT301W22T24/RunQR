@@ -17,8 +17,8 @@ public class QRLibrary implements Serializable {
 
     public QRLibrary(){
 
-        this.QRCodeList = new ArrayList<QRCode>();
-        this.QRLibraryScore = 0;
+       // this.QRCodeList = new ArrayList<QRCode>();
+        //this.QRLibraryScore = 0;
     }
 
     public QRLibrary(ArrayList<QRCode> QRCodeList, int score){
@@ -103,7 +103,10 @@ public class QRLibrary implements Serializable {
      * @return
      *      An int representing number of QRCodes stored in QRLibrary.
      */
-    public int getSize(){
+    public int ReturnSize(){
         return this.QRCodeList.size();
     }
+
+
+
 }

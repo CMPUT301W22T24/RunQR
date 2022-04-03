@@ -33,6 +33,7 @@ public class QRList extends ArrayAdapter<QRCode> implements Serializable {
     }
 
 
+
     /**
      * This method gets the view of the content of an item in the QRLibraryActivity's ListView.
      * @param position
@@ -68,7 +69,11 @@ public class QRList extends ArrayAdapter<QRCode> implements Serializable {
 
     }
 
+    public void setQRCodes(ArrayList<QRCode> QRCodes) {
+        this.QRCodes = QRCodes;
+    }
 
-
-
+    public void setContext(Context context) {
+        this.context = context;
+    }
 }
