@@ -121,6 +121,4 @@ public class LeaderboardActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

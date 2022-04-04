@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,11 +50,23 @@ public class LoginWithQRFragment extends Fragment {
     private OnFragmentInteractionListener listener;
     FirebaseFirestore db;
     String hashUsername = "";
+<<<<<<< Updated upstream
+=======
+    Context mContext;
+    Activity mActivity;
+>>>>>>> Stashed changes
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+<<<<<<< Updated upstream
 
+=======
+        mContext = context;
+        if (context instanceof Activity){
+            mActivity =(Activity) context;
+        }
+>>>>>>> Stashed changes
         if (context instanceof OnFragmentInteractionListener) {
             listener = (OnFragmentInteractionListener) context;
         }
@@ -129,8 +142,12 @@ public class LoginWithQRFragment extends Fragment {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
-                                    saveData();
-                                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                                    Log.d(TAG, hashUsername);
+                                    Log.d(TAG, QRString);
+                                    hashUsername = QRString;
+                                    Log.d(TAG, hashUsername);
+                                    //saveData();
+                                    Intent intent = new Intent(getContext(), MainActivity.class);
                                     startActivity(intent);
                                     kill_activity();
                                 } else {
@@ -236,6 +253,7 @@ public class LoginWithQRFragment extends Fragment {
         }
     }
 
+
     void saveData(){
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -247,7 +265,7 @@ public class LoginWithQRFragment extends Fragment {
 
     void kill_activity()
     {
-        getActivity().finish();
+        mActivity.finish();
     }
 
 

@@ -68,11 +68,11 @@ public class PlayerStats implements Serializable {
      */
 
     public PlayerStats(String username, QRCode highQr, QRCode lowQr, int sumScores, int numScanned, int rankHighQr, int rankNumScanned, int rankSumScores) {
-        highQr = highQr;
-        lowQr = lowQr;
+        this.highQr = highQr;
+        this.lowQr = lowQr;
         sumOfScores = sumScores;
         numOfScanned = numScanned;
-        rankHighQr = rankHighQr;
+        this.rankHighQr = rankHighQr;
         rankNumOfScanned = rankNumScanned;
         rankSumOfScores = rankSumScores;
         this.username = username;
