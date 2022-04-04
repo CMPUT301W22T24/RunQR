@@ -97,6 +97,10 @@ public class ManageQRCodesActivity extends AppCompatActivity {
                                 updateStats(player);
                                 //CALL BAILEYS FUNCTION TO UPDATE PLAYER STATS
                             }
+                            if(countSuccess == scannedByList.size()){
+                                updateQrCodesInDB();
+                            }
+                            countSuccess = 0;
 
                             db.collection("QR Codes").document(codeHash.toString())
                                     .delete()
