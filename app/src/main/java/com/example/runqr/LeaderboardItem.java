@@ -21,7 +21,7 @@ public class LeaderboardItem implements Comparable<LeaderboardItem>{
         return score;
     }
 
-    public int getScoreInt() { return Integer.parseInt(score); }
+    public int getScoreInt() { if (score == "null") return 0; else return Integer.parseInt(score); }
 
     public void setScore(String score) { this.score = score; }
 

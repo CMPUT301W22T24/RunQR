@@ -1,140 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".LoginActivity">
-<<<<<<< Updated upstream
+
+
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </FrameLayout>
-=======
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-
- <FrameLayout
-     android:id="@+id/frameLayout"
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:layout_marginBottom="2dp"
-     app:layout_constraintEnd_toEndOf="parent"
-     app:layout_constraintStart_toStartOf="parent"
-     app:layout_constraintTop_toTopOf="parent">
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
->>>>>>> Stashed changes
     <TextView
-        android:layout_marginTop="30dp"
         android:id="@+id/title_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="RunQR"
-        android:layout_alignParentLeft="true"
+        android:textFontWeight="@integer/material_motion_duration_long_1"
         android:textSize="50dp"
-        android:textFontWeight="@integer/material_motion_duration_long_1" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.011"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.003" />
+
+    <Button
+        android:id="@+id/login_owner_button"
+        android:layout_width="149dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="39dp"
+        android:baselineAligned="false"
+        android:text="LOGIN AS OWNER"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/login_qr_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.162" />
 
     <Button
         android:id="@+id/login_qr_button"
-        android:layout_width="143dp"
-        android:layout_height="53dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:text="LOGIN WITH QR CODE" />
+        android:layout_width="149dp"
+        android:layout_height="65dp"
+        android:text="LOGIN WITH QR CODE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/login_owner_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.162" />
 
     <TextView
         android:id="@+id/or_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="OR"
-        android:layout_marginTop="30dp"
-        android:layout_gravity="center"
         android:textSize="30dp"
-        android:layout_centerInParent="true"
-        app:layout_constraintTop_toBottomOf="@+id/login_qr_button"/>
+        app:layout_constraintBottom_toTopOf="@+id/create_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_qr_button" />
 
     <TextView
         android:id="@+id/create_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CREATE NEW ACCOUNT"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center"
         android:textSize="20dp"
-        android:layout_centerInParent="true"
-        app:layout_constraintTop_toBottomOf="@+id/login_qr_button"/>
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.417" />
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_width="142dp"
+        android:layout_height="47dp"
         android:hint="Username"
         android:inputType="text"
         android:selectAllOnFocus="true"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/sizeError"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/create_textview" />
+
+    <Button
+        android:id="@+id/signup_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CONFIRM"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/validEmail"
+        app:layout_constraintVertical_bias="0.227" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="142dp"
+        android:layout_height="47dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:selectAllOnFocus="true"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/validEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sizeError"
+        app:layout_constraintVertical_bias="0.681" />
 
     <TextView
         android:id="@+id/sizeError"
         android:layout_width="wrap_content"
-        android:textColor="@color/design_default_color_error"
         android:layout_height="wrap_content"
+        android:layout_marginTop="432dp"
+        android:layout_marginBottom="285dp"
         android:text="Username should contain at least 5 symbols"
-        android:layout_marginTop="5dp"
-        android:visibility="invisible"
-        android:layout_gravity="center"
-        android:textSize="10dp"
-        android:layout_centerInParent="true" />
-
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="200dp"
-        android:textAlignment="center"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:selectAllOnFocus="true" />
-
-    <TextView
-        android:id="@+id/validEmail"
-        android:layout_width="wrap_content"
         android:textColor="@color/design_default_color_error"
-        android:layout_height="wrap_content"
-        android:text="Enter valid email"
-        android:layout_marginTop="5dp"
-        android:visibility="invisible"
-<<<<<<< Updated upstream
-        android:layout_gravity="center"
         android:textSize="10dp"
-        android:layout_centerInParent="true" />
-
-    <Button
-        android:id="@+id/signup_button"
-        android:layout_width="143dp"
-        android:layout_height="53dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:text="CONFIRM" />
-
-</LinearLayout>
-=======
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
- </FrameLayout>
+
+    <TextView
+        android:id="@+id/validEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="515dp"
+        android:layout_marginBottom="202dp"
+        android:text="Enter valid email"
+        android:textColor="@color/design_default_color_error"
+        android:textSize="10dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
->>>>>>> Stashed changes

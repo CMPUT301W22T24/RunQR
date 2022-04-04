@@ -40,7 +40,7 @@ public class ManageQRCodesActivity extends AppCompatActivity {
     private ArrayList<Player> scannedByList = new ArrayList<Player>();
     private boolean confirmClicked = false;
     FirebaseFirestore db;
-    Integer countSuccess = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,10 +97,7 @@ public class ManageQRCodesActivity extends AppCompatActivity {
                                 updateStats(player);
                                 //CALL BAILEYS FUNCTION TO UPDATE PLAYER STATS
                             }
-                            if(countSuccess == scannedByList.size()){
-                                updateQrCodesInDB();
-                            }
-                            countSuccess = 0;
+                            updateQrCodesInDB();
 
                             db.collection("QR Codes").document(codeHash.toString())
                                     .delete()
@@ -128,8 +125,11 @@ public class ManageQRCodesActivity extends AppCompatActivity {
 
                     }
                 });
+
             }
         });
+
+
     }
 
     @Override
@@ -186,7 +186,6 @@ public class ManageQRCodesActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Data has been added successfully!");
-                        countSuccess += 1;
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -234,7 +233,7 @@ public class ManageQRCodesActivity extends AppCompatActivity {
                         String numOfScannedScore = String.valueOf(document.get(finalScoreStringNumOfScanned));
                         mostValuableQRPlayers.add(thisPlayer);
                         mostValuableQRScores.add(highestQRScore);
-                            //scoreDataList.add(new LeaderboardItem(thisPlayer, thisScore));
+                        //scoreDataList.add(new LeaderboardItem(thisPlayer, thisScore));
                         highestPointPlayers.add(thisPlayer);
                         highestPointScores.add(sumOfScoresScore);
                         mostQRPlayers.add(thisPlayer);
@@ -306,4 +305,3 @@ public class ManageQRCodesActivity extends AppCompatActivity {
         });
     }
 }
-
