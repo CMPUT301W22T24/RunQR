@@ -40,7 +40,7 @@ public class ManageQRCodesActivity extends AppCompatActivity {
     private ArrayList<Player> scannedByList = new ArrayList<Player>();
     private boolean confirmClicked = false;
     FirebaseFirestore db;
-
+    Integer countSuccess = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,9 +94,6 @@ public class ManageQRCodesActivity extends AppCompatActivity {
                             for(int i =0; i< scannedByList.size();i++){
                                 Player player = scannedByList.get(i);
                                 player.getPlayerQRLibrary().deleteQRCodeWithHash(codeHash);
-                                if(i == scannedByList.size() - 1){
-
-                                }
                                 updateStats(player);
                                 //CALL BAILEYS FUNCTION TO UPDATE PLAYER STATS
                             }
@@ -185,6 +182,7 @@ public class ManageQRCodesActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         // These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Data has been added successfully!");
+                        countSuccess += 1;
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
