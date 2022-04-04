@@ -103,7 +103,7 @@ public class QRLibrary implements Serializable {
      * @return
      *      An int representing number of QRCodes stored in QRLibrary.
      */
-    public int ReturnSize(){
+    public int returnSize(){
         return this.QRCodeList.size();
     }
 

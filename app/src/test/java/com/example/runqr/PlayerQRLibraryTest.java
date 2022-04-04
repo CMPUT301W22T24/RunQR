@@ -26,16 +26,16 @@ public class PlayerQRLibraryTest {
         Player testPlayer = new Player (new Account(), new QRLibrary());
         QRLibrary testLibrary = testPlayer.getPlayerQRLibrary();
 
-        assertEquals(testLibrary.getSize(), 0);
+        assertEquals(testLibrary.returnSize(), 0);
         testPlayer.addQRCode(testCode1);
-        assertEquals(testLibrary.getSize(),1);
+        assertEquals(testLibrary.returnSize(),1);
         testPlayer.addQRCode(testCode2);
-        assertEquals(testLibrary.getSize(),2);
+        assertEquals(testLibrary.returnSize(),2);
         assertEquals(testLibrary.getQRCode(0), testCode1);
 
         assertEquals(testLibrary.getQRLibraryScore(), testCode1.getScore()+testCode2.getScore());
         testPlayer.deleteQRCode(testCode1);
-        assertEquals(testLibrary.getSize(),1);
+        assertEquals(testLibrary.returnSize(),1);
 
     }
 
