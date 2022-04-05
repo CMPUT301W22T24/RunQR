@@ -23,6 +23,8 @@ public class QRCode implements Serializable {
     private Photo photo;
     private CommentLibrary commentLibrary;
     private ArrayList<Player> scannedByList = new ArrayList<Player>();
+    private double lat;
+    private double lon;
 
 
     // If both location and photo are denied
@@ -37,7 +39,8 @@ public class QRCode implements Serializable {
     public QRCode(String hash, Location location) {
         this.score = scoreQRCode(hash);
         this.hash = hash;
-        this.location = location;
+        this.lat = location.getY();
+        this.lon = location.getX();
         this.commentLibrary = new CommentLibrary();
 
     }
@@ -99,6 +102,22 @@ public class QRCode implements Serializable {
      */
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
     }
 
     /**

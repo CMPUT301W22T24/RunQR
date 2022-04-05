@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
@@ -62,6 +63,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -937,11 +939,17 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
                 currentPlayer = updatedCurrentPlayer;
             }
         }
-        if(requestCode == 2){
+        /*if(requestCode == 2){
             if(resultCode == RESULT_OK){
-                QRCodePhoto = (Photo) data.getSerializableExtra("photo");
+                Bundle extras = getIntent().getExtras();
+                byte[] byteArray = extras.getByteArray("picture");
+
+                Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                ImageView image = (ImageView) findViewById(R.id.imageView1);
+
+                image.setImageBitmap(bmp);
             }
-        }
+        }*/
     }
 
     @SuppressLint("MissingPermission")
@@ -1024,7 +1032,7 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
                 });
     }
 
-    private void getDeviceLocation() {
+    public void getDeviceLocation() {
         /*
          * Get the best and most recent location of the device, which may be null in rare
          * cases when a location is not available.
@@ -1088,8 +1096,8 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
 
 
     public Photo openCamera(){
-        Intent intent = new Intent(this, CameraActivity.class);
-        startActivityForResult(intent, 2);
+        //Intent intent = new Intent(this, CameraActivity.class);
+        //startActivityForResult(intent, 2);
         /*
         startActivityFromFragment((Fragment) AddQRFragment,intent,1000);
         Photo getPhoto = (Photo) intent.getParcelableExtra("PhotoImage");

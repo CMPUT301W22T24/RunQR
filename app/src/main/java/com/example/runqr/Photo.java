@@ -9,12 +9,31 @@ import java.io.Serializable;
 public class Photo implements Parcelable {
     private Bitmap image;
     private Photo photo;
-    /*
+
     public Photo(){
-        this.photo = photo;
+
     }
 
-     */
+
+
+    protected Photo(Parcel in) {
+        this.image = in.readParcelable(Bitmap.class.getClassLoader());
+        this.photo = in.readParcelable(Photo.class.getClassLoader());
+    }
+
+    public static final Creator<Photo> CREATOR = new Creator<Photo>() {
+        @Override
+        public Photo createFromParcel(Parcel in) {
+            return new Photo(in);
+        }
+
+        @Override
+        public Photo[] newArray(int size) {
+            return new Photo[size];
+        }
+    };
+
+
 
     public Bitmap getImage() {
         return image;
@@ -31,6 +50,7 @@ public class Photo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeParcelable(image, i);
+        parcel.writeParcelable(photo, i);
     }
 }

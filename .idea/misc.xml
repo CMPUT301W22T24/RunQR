@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/CMPUT301/NewRunQR/RunQR/app/src/main/res/layout/camera_layout.xml" value="0.25482021886399164" />
+        <entry key="..\:/CMPUT301/NewRunQR/RunQR/app/src/main/res/layout/scanner_popup.xml" value="0.1" />
         <entry key="..\:/Users/Bayley/AndroidStudioProjects/CMPUT301 Project/RunQR/app/src/main/res/layout/activity_leaderboard.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Bayley/AndroidStudioProjects/CMPUT301 Project/RunQR/app/src/main/res/layout/activity_profile.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/Bayley/AndroidStudioProjects/CMPUT301 Project/RunQR/app/src/main/res/layout/activity_qrlibrary.xml" value="0.1068840579710145" />

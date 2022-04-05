@@ -4,11 +4,14 @@ package com.example.runqr;
 import static android.content.ContentValues.TAG;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Criteria;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,23 +25,38 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.Preview;
+import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.camera.view.PreviewView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.Result;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 
 // This class is the Fragment used to host a codeScanner which allows players to scan QRCodes and uses Hasher to hash code contents.
 // The newly created QRCode is passed back to MainActivity through method onConfirmPressed and added to player's QRLibrary there.
@@ -46,7 +64,7 @@ import java.util.ArrayList;
 
 
 
-public class AddQRFragment extends Fragment {
+public class AddQRFragment extends Fragment implements LocationListener {
     FirebaseFirestore db;
 
     private static final int RC_PERMISSION = 10;
@@ -54,28 +72,41 @@ public class AddQRFragment extends Fragment {
     private boolean mPermissionGranted;
     private String QRString = null;
     private OnFragmentInteractionListener listener;
+    private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
 
     // build fragment/popup
     static AlertDialog.Builder dialogBuilder;
     static AlertDialog dialog;
     private Button take_photo, add_geolocation, yes, no;
 
-    static Boolean locationAdded = false;
-    static Boolean photoAdded = false;
+    Boolean locationAdded = false;
+    Boolean photoAdded = false;
     Boolean alreadyScanned;
 
     Location QRCodeLocation;
     QRCode QRCodeToAdd;
     Photo QRCodePhoto;
     Bitmap bitmap;
+    View conformationPopup;
 
     Context mContext;
     int LOCATION_PERMISSION_REQUEST_CODE = 100;
     Player currentPlayer;
+    private ConstraintLayout buttonLayout;
+    private ConstraintLayout cameraLayout;
+    Button takePicture;
+    PreviewView previewView;
+    private ImageCapture imageCapture;
+
 
     Boolean unique;
     ArrayList<Player> scannedByList;
     Boolean addCode = true;
+    FusedLocationProviderClient fusedLocationProviderClient;
+    android.location.Location lastKnownLocation;
+
+    //double latitude = 0.0;
+    //double longitude = 0.0;
 
 
     @Override
@@ -91,12 +122,18 @@ public class AddQRFragment extends Fragment {
 
     }
 
+    @Override
+    public void onLocationChanged(@NonNull android.location.Location location) {
+
+    }
+
     public interface OnFragmentInteractionListener {
         void onConfirmPressed(QRCode QRCodeToAdd);
 
         Photo openCamera();
 
     }
+
 
 
     @Nullable
@@ -114,6 +151,7 @@ public class AddQRFragment extends Fragment {
 
         Button confirmAddQR = root.findViewById(R.id.confirm_addQR_button);
         Button cancelAddQR = root.findViewById(R.id.cancel_addQR_button);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
         Hasher QRCodeHasher = new Hasher();
 
@@ -174,7 +212,7 @@ public class AddQRFragment extends Fragment {
                     Log.v("Confirm 2", "Confirm 2");
 
                     dialogBuilder = new AlertDialog.Builder(getActivity());
-                    final View conformationPopup = getLayoutInflater().inflate(R.layout.scanner_popup, null);
+                    conformationPopup = getLayoutInflater().inflate(R.layout.scanner_popup, null);
 
                     take_photo = (Button) conformationPopup.findViewById(R.id.takePhotoButton);
                     add_geolocation = (Button) conformationPopup.findViewById(R.id.addGeolocationButton);
@@ -215,35 +253,37 @@ public class AddQRFragment extends Fragment {
                     dialog = dialogBuilder.create();
                     dialog.show();
 
-                    take_photo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            photoAdded = true;
-                            //FIX BELOW
-                            QRCodePhoto = new Photo();
-
-                            //define Take Photo here
-                            QRCodePhoto = listener.openCamera();
-                            //QRCodePhoto.setImage(bitmap);
-
-                            // cite: https://stackoverflow.com/questions/13067033/how-to-access-activity-variables-from-a-fragment-android by David M
-                            //CameraActivity result = (CameraActivity) getActivity();
-                            //QRCodePhoto.setImage(result.bitmap);
-                            //bitmap = QRCodePhoto.getImage();
-
-                            //Intent intent = getIntent();
-                            //Bitmap bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
-
-                        }
-                    });
-
 
                     add_geolocation.setOnClickListener(new View.OnClickListener() {
+                        @SuppressLint("MissingPermission")
                         @Override
                         public void onClick(View view) {
-                            MainActivity result2 = (MainActivity) getActivity();
+                            locationAdded = true;
+
+                           //getDeviceCurrentLocation();
+
+                            Criteria criteria = new Criteria();
+                            // cited: https://stackoverflow.com/questions/13306254/how-to-get-a-reference-to-locationmanager-inside-a-fragment, Rafael T
+                            //LocationManager mgr =
+                                    //(LocationManager)getContext().getSystemService(Context.LOCATION_SERVICE);
+                            String provider = lm.getBestProvider(criteria, true);
+                            android.location.Location location = lm.getLastKnownLocation(provider);
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+
+                            QRCodeLocation = new Location(longitude, latitude);
+
+                            //QRCodeLocation.setY(latitude);
+                            //QRCodeLocation.setX(longitude);
+
+                            /*MainActivity result2 = (MainActivity) getActivity();
                             QRCodeLocation.setX(result2.currentLatitude);
                             QRCodeLocation.setY(result2.currentLongitude);
+
+                             */
+                            //fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity()); //might cause null error
+                            //lastKnownLocation
+
 
                             /*
                             // Get location permission:
@@ -300,19 +340,22 @@ public class AddQRFragment extends Fragment {
                         // NOTE: photo is temporarily null here
                         QRCodeToAdd = new QRCode(hashedString, QRCodeLocation, QRCodePhoto);
                     } else if (locationAdded && !photoAdded) {
+
                         QRCodeToAdd = new QRCode(hashedString, QRCodeLocation, (Photo) null);
                     } else if (!locationAdded && photoAdded) {
                         // NOTE: photo is temporarily null here
                         QRCodeToAdd = new QRCode(hashedString, QRCodePhoto);
                     } else {
-                        QRCodeToAdd = new QRCode(hashedString);
+                        Log.v("jufhehf", "knend");
+                        Log.v("Latut", String.valueOf(QRCodeLocation.getX()));
+                        QRCodeToAdd = new QRCode(hashedString, QRCodeLocation);
                     }
 
                     unique = checkWhetherUnique(QRCodeToAdd);
 
                     // send QRCodeToAdd to MainActivity to add it to the player's QRLibrary
 
-                    if (addCode){
+                    if (addCode) {
                         listener.onConfirmPressed(QRCodeToAdd);
                     }
 
@@ -352,6 +395,119 @@ public class AddQRFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    private void getDeviceCurrentLocation() {
+        @SuppressLint("MissingPermission")
+        Task<android.location.Location> locationResult = fusedLocationProviderClient.getLastLocation();
+        locationResult.addOnCompleteListener((Executor) this, new OnCompleteListener<android.location.Location>() {
+            @Override
+            public void onComplete(@NonNull Task<android.location.Location> task) {
+                if(task.isSuccessful()){
+                    lastKnownLocation = task.getResult();
+                    Log.v("lat", String.valueOf(lastKnownLocation.getLatitude()));
+
+                }
+            }
+        });
+    }
+
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        buttonLayout = view.findViewById(R.id.buttonView);
+        cameraLayout = view.findViewById(R.id.cameraView);
+        takePicture = view.findViewById(R.id.takePhoto);
+
+        previewView = view.findViewById(R.id.previewView);
+
+
+        /*take_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                photoAdded = true;*/
+                //FIX BELOW
+                //QRCodePhoto = new Photo();
+
+                //define Take Photo here
+
+                /*buttonLayout.setVisibility(View.GONE);
+                cameraLayout.setVisibility(View.VISIBLE);
+
+                takePicture.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view){*/
+                        //photo = new Photo();
+
+                        /*bitmap = previewView.getBitmap();
+                        int byteCount = bitmap.getByteCount();
+                        if(byteCount > 8000000){
+                            bitmap = bitmap.createScaledBitmap(bitmap,100,100,false);
+                        }
+
+                        cameraLayout.setVisibility(View.GONE);
+                        buttonLayout.setVisibility(View.VISIBLE);*/
+
+                        //photo.setImage(bitmap);
+                                    /*Context context = mContext;
+                                    CharSequence text = "This Picture Has Been Saved";
+                                    int duration = Toast.LENGTH_SHORT;
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();*/
+                                    /*ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                    byteArray = stream.toByteArray();*/
+        //photo.setImage(bitmap);
+        //Intent intent = new Intent(this, AddQRFragment.class);
+        //intent.putExtra("PhotoImage", (Parcelable) photo);
+        //Intent intent = new Intent(this, CameraActivity.class);
+        //intent.putExtra("BitmapImage", bitmap);
+        //finish();
+    /*}
+                );
+                cameraProviderFuture = ProcessCameraProvider.getInstance(getActivity());
+
+                cameraProviderFuture.addListener(() -> {
+                    try {
+                        ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+                        startCameraX(cameraProvider);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }, getExecutor());*/
+                //QRCodePhoto.setImage(bitmap);
+
+                // cite: https://stackoverflow.com/questions/13067033/how-to-access-activity-variables-from-a-fragment-android by David M
+                //CameraActivity result = (CameraActivity) getActivity();
+                //QRCodePhoto.setImage(result.bitmap);
+                //bitmap = QRCodePhoto.getImage();
+
+                //Intent intent = getIntent();
+                //Bitmap bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
+
+            }
+
+    private Executor getExecutor() {
+        return ContextCompat.getMainExecutor(getActivity());
+    }
+
+    private void startCameraX(ProcessCameraProvider cameraProvider) {
+        //Structure of the code referenced from "https://www.youtube.com/watch?v=IrwhjDtpIU0" by Coding Reel
+        cameraProvider.unbindAll();
+
+        CameraSelector cameraSelector = new CameraSelector.Builder()
+                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                .build();
+
+        Preview preview = new Preview.Builder().build();
+
+        preview.setSurfaceProvider(previewView.createSurfaceProvider());
+
+        imageCapture = new ImageCapture.Builder()
+                .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+                .build();
+
+        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
     }
 
 
