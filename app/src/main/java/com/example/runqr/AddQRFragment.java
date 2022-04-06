@@ -261,9 +261,10 @@ public class AddQRFragment extends Fragment implements LocationListener {
                             locationAdded = true;
 
                            //getDeviceCurrentLocation();
+                            // cited: https://stackoverflow.com/questions/42367681/using-fragment-i-want-get-current-location-in-android, koksalb
 
                             Criteria criteria = new Criteria();
-                            // cited: https://stackoverflow.com/questions/13306254/how-to-get-a-reference-to-locationmanager-inside-a-fragment, Rafael T
+
                             //LocationManager mgr =
                                     //(LocationManager)getContext().getSystemService(Context.LOCATION_SERVICE);
                             String provider = lm.getBestProvider(criteria, true);
