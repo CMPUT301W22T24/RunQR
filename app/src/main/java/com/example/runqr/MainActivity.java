@@ -229,91 +229,7 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
             }
         };
 
-                /*
-                HashMap<String, Account> accountData = new HashMap<>();
-                //HashMap<String, String> accountData = new HashMap<>();
-                //accountData.put("Account", currentPlayer.getPlayerAccount().getUsername());
 
-
-                // The set method sets a unique id for the document
-                collectionReference
-                        .document("test_username")
-                        .set(accountData)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-        // These are a method which gets executed when the task is succeeded
-
-                                Log.d(TAG, "Data has been added successfully!");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-        // These are a method which gets executed if there’s any problem
-                                Log.d(TAG, "Data could not be added!" + e.toString());
-                            }
-                        });
-
-
-
-                 */
-                /*QRCodesReference = db.collection("QR Codes");
-                qrData.put("Location X", "53.5198");
-                qrData.put("Location Y", "-113.4970");
-                int random_int = (int)Math.floor(Math.random()*(100-0+1)+0);
-
-                QRCodesReference
-                        .document(String.valueOf(random_int))
-                        .set(qrData)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // These are a method which gets executed when the task is succeeded
-
-                                Log.v(TAG, "Global QRData has been added successfully!");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // These are a method which gets executed if there’s any problem
-                                Log.v(TAG, "Global QRData could not be added!" + e.toString());
-                            }
-                        });*/
-
-
-
-
-        /*
-
-
-
-
-         */
-        /*QRCodesReference = db.collection("QR Codes");
-        qrData.put("Location X", "53.51863");
-        qrData.put("Location Y", "-113.49429");
-        int random_int = (int)Math.floor(Math.random()*(100-0+1)+0);
-
-        QRCodesReference
-                .document(String.valueOf(random_int))
-                .set(qrData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // These are a method which gets executed when the task is succeeded
-
-                        Log.v(TAG, "Global QRData has been added successfully!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // These are a method which gets executed if there’s any problem
-                        Log.v(TAG, "Global QRData could not be added!" + e.toString());
-                    }
-                });*/
 
 
         //Any change in the QR Codes collection in the database is noticed here and the map is updated accordingly
@@ -406,25 +322,6 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-
-
-                /*
-                final Button addQR = findViewById(R.id.add_qr_button);
-                addQR.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view){
-                        openAddQRFragment(addQR);
-
-                    }
-
-
-                });
-
-
-                */
-        //}
-        //}
 
 
 
@@ -730,82 +627,7 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
         }
 
 
-/*
-        // THIS NEEDS TO BE UPDATED BY KENNY
-        // Below: open activity/fragment which prompts user to access their device's location and take photo of the object containing scannedQRCode
 
-        dialogBuilder = new AlertDialog.Builder(this);
-        final View conformationPopup = getLayoutInflater().inflate(R.layout.scanner_popup,null);
-
-        take_photo = (Button) conformationPopup.findViewById(R.id.takePhotoButton);
-        add_geolocation = (Button) conformationPopup.findViewById(R.id.addGeolocationButton);
-        yes = (Button) conformationPopup.findViewById(R.id.yesButton);
-        no = (Button) conformationPopup.findViewById(R.id.noButton);
-
-
-        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION
-            }, 100);
-
-            return;
-        }
-        android.location.Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-
-
-        dialogBuilder.setView(conformationPopup);
-        dialog = dialogBuilder.create();
-        dialog.show();
-
-        take_photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //define Take Photo here
-                openCamera(view);
-            }
-        });
-
-        add_geolocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //define Geo-Location here
-                double longitude = location.getLongitude();
-                double latitude = location.getLatitude();
-                view.setX(Math.round(longitude));
-                view.setY(Math.round(latitude));
-
-            }
-        });
-
-        yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //define Got it here
-                dialog.dismiss();
-            }
-        });
-
-        no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //define Cancel here
-                dialog.dismiss();
-            }
-        });
-
-
-      
- */
 
 
         // call method to add location data to qrCodeCollection for nearbyQRCodeSearch algorithm
@@ -816,6 +638,7 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
 
 
     }
+
 
 
     public void addQRLocationGlobally(QRCode qrCodeData,HashMap<String, String> qrData, CollectionReference QRCodesReference ) {
@@ -939,8 +762,9 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
                 currentPlayer = updatedCurrentPlayer;
             }
         }
-        if(requestCode == 2){
+        /*if(requestCode == 2){
             if(resultCode == RESULT_OK){
+<<<<<<< HEAD
                // QRCodePhoto = (Photo) data.getSerializableExtra("photo");
             }
         }
@@ -948,8 +772,17 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
             if(resultCode == RESULT_OK){
                 Uri selectedImage = data.getData();
                 QRCodePhoto = selectedImage;
+=======
+                Bundle extras = getIntent().getExtras();
+                byte[] byteArray = extras.getByteArray("picture");
+
+                Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                ImageView image = (ImageView) findViewById(R.id.imageView1);
+
+                image.setImageBitmap(bmp);
+>>>>>>> 17a175600d8f1c3eb5fa197e339d10affc23ab79
             }
-        }
+        }*/
     }
 
     @SuppressLint("MissingPermission")
@@ -992,11 +825,14 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
 
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
-                                if((double)doc.getData().get("lat")!=null && (double)doc.getData().get("lon")!=null){
-                                   
-                                    
-                                    Float x = Float.parseFloat((String)doc.getData().get("lat"));
-                                    Float y = Float.parseFloat((String)doc.getData().get("lon"));
+                                QRCode code = doc.toObject(QRCode.class);
+                                com.example.runqr.Location location = code.getLocation();
+
+                                if(location != null){
+                                    //if(doc.getData().get("lat")!=null && doc.getData().get("lon")!=null){
+
+                                    double x = location.getX();
+                                    double y = location.getY();
                                     double currentLatitudeRadians = Math.toRadians(lastKnownLocation.getLatitude());
                                     double locationLatitudeRadians = Math.toRadians(x);
                                     double currentLongitudeRadians = Math.toRadians(lastKnownLocation.getLongitude());
@@ -1031,7 +867,7 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
                 });
     }
 
-    private void getDeviceLocation() {
+    public void getDeviceLocation() {
         /*
          * Get the best and most recent location of the device, which may be null in rare
          * cases when a location is not available.
@@ -1094,19 +930,6 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
     }
 
 
-    /*
-    public Bitmap openCamera(){
-        Intent intent = new Intent(this, CameraActivity.class);
-        startActivityForResult(intent, 2);
-
-        //startActivityFromFragment((Fragment) AddQRFragment,intent,1000);
-        //Photo getPhoto = (Photo) intent.getParcelableExtra("PhotoImage");
-
-        return new Bitmap();
-        //return QRCodePhoto.getImage();
-    }
-
-     */
 
     public void onPhotoCaptured(QRCode QRCodeToAddPhotoTo) {
         Intent intent = new Intent(Intent.ACTION_PICK,

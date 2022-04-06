@@ -1,21 +1,25 @@
 package com.example.runqr;
 
-import android.net.Uri;
+import android.graphics.Bitmap;
+
 
 public class Photo {
-    private Uri image;
+    private Bitmap image;
+    private Photo photo;
 
     public Photo(){
+
     }
 
 
 
 
-    public Uri getImage() {
+    public Bitmap getImage() {
         return image;
     }
 
-    public void setImage(Uri image) {
+    public void setImage(Bitmap image) {
         this.image = image;
     }
+    
 }
