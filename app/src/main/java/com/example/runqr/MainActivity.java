@@ -992,12 +992,11 @@ public class MainActivity extends AppCompatActivity implements AddQRFragment.OnF
 
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot doc : task.getResult()) {
-                                if(String.valueOf(doc.getId()).length() <=2 ){
-                                    Log.v("id", (String)doc.getId());
-                                    Log.v("x",String.valueOf(doc.getData().get("Location X")) );
-                                    Log.v("y", String.valueOf(doc.getData().get("Location Y")));
-                                    Float x = Float.parseFloat((String)doc.getData().get("Location X"));
-                                    Float y = Float.parseFloat((String)doc.getData().get("Location Y"));
+                                if((double)doc.getData().get("lat")!=null && (double)doc.getData().get("lon")!=null){
+                                   
+                                    
+                                    Float x = Float.parseFloat((String)doc.getData().get("lat"));
+                                    Float y = Float.parseFloat((String)doc.getData().get("lon"));
                                     double currentLatitudeRadians = Math.toRadians(lastKnownLocation.getLatitude());
                                     double locationLatitudeRadians = Math.toRadians(x);
                                     double currentLongitudeRadians = Math.toRadians(lastKnownLocation.getLongitude());
